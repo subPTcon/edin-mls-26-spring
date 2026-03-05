@@ -21,7 +21,14 @@ Login Node (gala2)            Compute Node (saxa, 2× GPU)
 ## Prerequisites
 
 ```bash
-pip install pylet sglang openai
+pip install pylet
+pip install sglang==0.5.6
+```
+
+If you do not have cuda toolkit installed (i.e., no CUDA or NVCC found), please do:
+```bash
+conda install conda-forge::cuda-toolkit==12.8.1
+echo 'export LIBRARY_PATH=$CONDA_PREFIX/lib:$CONDA_PREFIX/lib/stubs:$LIBRARY_PATH' >> ~/.bashrc
 ```
 
 ## Step-by-step
