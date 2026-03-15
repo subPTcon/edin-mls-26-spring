@@ -70,7 +70,23 @@ def rmsnorm_kernel(
     # Step 4: Apply weight and store
 
     # YOUR CODE HERE
-    pass
+    row_x = x_ptr + pid * stride_x
+    row_y = y_ptr + pid * stride_y
+
+    cols = tl.arange(0, BLOCK_SIZE)
+    mask = cols < hidden_size
+
+    x = tl.load(row_x + cols, mask=mask, other=0.0)
+    w = tl.load(w_ptr + cols, mask=mask, other=0.0)
+
+    x_sq = x * x3
+    mean_sq = tl.sum(x_sq, axis=0) / hidden_size
+
+    rrms = 1.0 / tl.sqrt(mean_sq + eps)
+    x_norm = x * rrms
+
+    y = x_norm * w
+    tl.store(row_y + cols, y, mask=mask)
 
 
 @triton.jit
@@ -361,7 +377,22 @@ def softmax_kernel(x_ptr, y_ptr, stride_x, stride_y, n_cols, BLOCK_SIZE: tl.cons
     # Step 4: Store output
 
     # YOUR CODE HERE
-    pass
+    row_start_x = x_ptr + row * stride_x
+    row_start_y = y_ptr + row * stride_y
+
+    cols = tl.arange(0, BLOCK_SIZE)
+    mask = cols < n_cols
+
+    x = tl.load(row_start_x + cols, mask=mask, other=-float('inf'))
+
+    x_max = tl.max(x, axis=0)
+    x = x - x_max
+
+    numerator = tl.exp(x)
+    denominator = tl.sum(numerator, axis=0)
+    y = numerator / denominator
+
+    tl.store(row_start_y + cols, y, mask=mask)
 
 
 @triton.jit
