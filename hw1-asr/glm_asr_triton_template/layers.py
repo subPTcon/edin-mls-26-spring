@@ -126,7 +126,13 @@ def gelu_kernel(x_ptr, y_ptr, n_elements, BLOCK_SIZE: tl.constexpr):
     # Step 3: Store output
 
     # YOUR CODE HERE
-    pass
+    offsets = pid * BLOCK_SIZE + tl.arange(0, BLOCK_SIZE)
+    mask = offsets < n_elements
+
+    x = tl.load(x_ptr + offsets, mask=mask).to(tl.float32)
+    y = 0.5 * x * (1.0 + tl.math.erf(x / 1.4142135623730951))
+
+    tl.store(y_ptr + offsets, y, mask=mask)
 
 
 @triton.jit
@@ -147,7 +153,13 @@ def silu_kernel(x_ptr, y_ptr, n_elements, BLOCK_SIZE: tl.constexpr):
     # Step 3: Multiply and store
 
     # YOUR CODE HERE
-    pass
+    offsets = pid * BLOCK_SIZE + tl.arange(0, BLOCK_SIZE)
+    mask = offsets < n_elements
+
+    x = tl.load(x_ptr + offsets, mask=mask)
+    y = x * tl.sigmoid(x)
+
+    tl.store(y_ptr + offsets, y, mask=mask)
 
 
 @triton.jit
