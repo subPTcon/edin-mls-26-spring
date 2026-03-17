@@ -63,7 +63,42 @@ def attention_scores_kernel(
     # Step 4: Store scores
 
     # YOUR CODE HERE
-    pass
+    pid_bh = tl.program_id(axis=0)
+    pid_q = tl.program_id(axis=1)
+
+    offs_d = tl.arange(0, BLOCK_D)
+    mask_d = offs_d < head_dim
+
+    q_base = q_ptr + pid_bh * stride_q0 + pid_q * stride_q1
+    q = tl.load(q_base + offs_d *  stride_q2, mask=mask_d, other=0.0).to(tl.float32)
+
+    k_base = k_ptr + pid_bh * stride_k0
+
+    s_base = scores_ptr + pid_bh * stride_s0 + pid_q * stride_s1
+
+    offs_k = tl.arange(0, BLOCK_K)
+
+    for k_start in range(0, seq_k, BLOCK_K):
+        k_indices = k_start + offs_k
+        mask_k = k_indices < seq_k
+
+        k_ptrs = k_base + k_indices[:, None] * stride_k1 + offs_d[None, :] * stride_k2
+        combined_mask = mask_k[:, None] & mask_d[None, :]
+        k = tl.load(k_ptrs, mask=combined_mask, other=0.0).to(tl.float32)
+        # k 形状: (BLOCK_K, BLOCK_D)
+
+        # ---- 计算点积: score = sum_d(q[d] * k[k_pos, d]) ----
+        # q 广播: (BLOCK_D,) -> (BLOCK_K, BLOCK_D)
+        # 逐元素乘法后在 head_dim 维度求和
+        dot = tl.sum(q[None, :] * k, axis=1)  # (BLOCK_K,)
+
+        # 缩放
+        dot = dot * scale
+
+        # ---- Step 4: Store scores ----
+        s_ptrs = s_base + k_indices * stride_s2
+        tl.store(s_ptrs, dot, mask=mask_k)
+
 
 
 @triton.jit
