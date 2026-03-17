@@ -121,7 +121,32 @@ def layernorm_kernel(
     # Step 5: Normalize and apply affine transform
 
     # YOUR CODE HERE
-    pass
+    pid = tl.program_id(0)
+
+    offsets = tl.arange(0, BLOCK_SIZE)
+    mask = offsets < hidden_size
+
+    x_row_ptr = x_ptr + pid * stride_x
+    x = tl.load(x_row_ptr + offsets, mask=mask, other=0.0).to(tl.float32)
+
+    w = tl.load(w_ptr + offsets, mask=mask, other=0.0).to(tl.float32)
+    b = tl.load(b_ptr + offsets, mask=mask, other=0.0).to(tl.float32)
+
+    mean = tl.sum(x, axis=0) / hidden_size
+
+    x_centered = x - mean
+
+    var = tl.sum(x_centered * x_centered, axis=0) / hidden_size
+
+    rstd = 1.0 / tl.sqrt(var + eps)
+    x_norm = x_centered * rstd
+
+    y = x_norm * w + b
+
+    y_row_ptr = y_ptr + pid * stride_y
+
+    y_row_ptr = y_ptr + pid * stride_y
+    tl.store(y_row_ptr + offsets, y, mask=mask)
 
 
 @triton.jit
@@ -216,7 +241,32 @@ def linear_kernel_tf32(
     # Step 3: Store the result
 
     # YOUR CODE HERE
-    pass
+    acc = tl.zeros((BLOCK_M, BLOCK_N), dtype=tl.float32)
+
+    offs_m = pid_m * BLOCK_M + tl.arange(0, BLOCK_M)
+    offs_n = pid_n * BLOCK_N + tl.arange(0, BLOCK_N)
+    offs_k = tl.arange(0, BLOCK_K)
+
+    a_ptrs = a_ptr + offs_m[:, None] * stride_am + offs_k[None, :] * stride_ak
+    b_ptrs = b_ptr + offs_k[:, None] * stride_bk + offs_n[None, :] * stride_bn
+
+    for k_start in range(0, K, BLOCK_K):
+        k_offsets = k_start + offs_k
+        mask_a = (offs_m[:, None] < M) & (k_offsets[None, :] < K)
+        mask_b = (k_offsets[:, None] < K) & (offs_n[None, :] < N)
+
+        a = tl.load(a_ptrs, mask=mask_a, other=0.0)
+        b = tl.load(b_ptrs, mask=mask_b, other=0.0)
+
+        acc += tl.dot(a, b, allow_tf32=True)
+
+        a_ptrs += BLOCK_K * stride_ak
+        b_ptrs += BLOCK_K * stride_bk
+
+    c_ptrs = c_ptr + offs_m[:, None] * stride_cm + offs_n[None, :] * stride_cn
+    mask_c = (offs_m[:, None] < M) & (offs_n[None, :] < N)
+
+    tl.store(c_ptrs, acc, mask=mask_c)
 
 
 @triton.jit
