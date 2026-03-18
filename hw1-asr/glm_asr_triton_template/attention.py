@@ -119,7 +119,22 @@ def softmax_inplace_kernel(scores_ptr, stride_s, seq_k, BLOCK_SIZE: tl.constexpr
     # Step 4: Store back
 
     # YOUR CODE HERE
-    pass
+    col_offsets = tl.arange(0, BLOCK_SIZE)
+    mask = col_offsets < seq_k
+
+    row_ptr = scores_ptr + row * stride_s + col_offsets
+
+    scores = tl.load(row_ptr, mask=mask, other=float('-inf'))
+
+    row_max = tl.max(scores, axis=0)
+    scores = scores - row_max
+
+    exp_scores = tl.exp(scores)
+
+    row_sum = tl.sum(exp_scores, axis=0)
+    softmax_out = exp_scores / row_sum
+
+    tl.store(row_ptr, softmax_out, mask=mask)
 
 
 @triton.jit
@@ -158,7 +173,41 @@ def attention_output_kernel(
     # Step 4: Store output
 
     # YOUR CODE HERE
-    pass
+    d_offsets = tl.arange(0, BLOCK_D)
+    d_mask = d_offsets < head_dim
+
+    acc = tl.zeros([BLOCK_D], dtype=tl.float32)
+
+    for k_start in range(0, tl.cdiv(seq_k, BLOCK_K) * BLOCK_K, BLOCK_K):
+        k_offsets = k_start + tl.arange(0, BLOCK_K)
+        k_mask = k_offsets < seq_k
+
+        w_ptrs = (
+            attn_ptr
+            + pid_bh * stride_v0
+            + k_offsets[:, None] * stride_v1
+            + d_offsets[None, :] * stride_v2
+        )
+        weights = tl.load(w_ptrs, mask=k_mask, other=0.0)
+
+        v_ptrs = (
+            v_ptr
+            + pid_bh * stride_v0
+            + k_offsets[:, None] * stride_v1
+            + d_offsets[None, :] * stride_v2
+        )
+        mask_kd = k_mask[:, None] & d_mask[None, :]
+        v_block = tl.load(v_ptrs, mask=mask_kd, other=0.0)
+
+        acc += tl.sum(weights[:, None] * v_block, axis=0)
+
+    o_ptrs = (
+        output_ptr
+        + pid_bh * stride_o0
+        + pid_q * stride_o1
+        + d_offsets * stride_o2
+    )
+    tl.store(o_ptrs, acc, mask=d_mask)
 
 
 @triton.jit
