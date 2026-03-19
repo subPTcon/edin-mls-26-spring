@@ -268,6 +268,123 @@ def causal_mask_kernel(
 
 
 # ============================================================================
+# FlashAttention-Style Fused Kernel (Online Softmax)
+# ============================================================================
+
+@triton.jit
+def flash_attention_kernel(
+    q_ptr, k_ptr, v_ptr, output_ptr,
+    scale,
+    seq_q, seq_k, head_dim,
+    stride_q0, stride_q1, stride_q2,
+    stride_k0, stride_k1, stride_k2,
+    stride_v0, stride_v1, stride_v2,
+    stride_o0, stride_o1, stride_o2,
+    IS_CAUSAL: tl.constexpr,
+    BLOCK_M: tl.constexpr,
+    BLOCK_N: tl.constexpr,
+    BLOCK_D: tl.constexpr,
+):
+    """
+    FlashAttention-style fused attention kernel.
+
+    Fuses score computation, softmax, and output accumulation into a single kernel
+    using online softmax (Dao, 2023). Never materializes the full (seq_q, seq_k)
+    scores matrix to HBM.
+
+    Grid: (batch_heads, cdiv(seq_q, BLOCK_M))
+
+    Online softmax maintains per-row running statistics:
+      m_i: running max of scores (for numerical stability)
+      l_i: running sum of exp(scores - m_i)
+      O_i: running weighted sum, rescaled on each iteration
+    """
+    pid_bh = tl.program_id(0)
+    pid_m = tl.program_id(1)
+
+    offs_m = pid_m * BLOCK_M + tl.arange(0, BLOCK_M)
+    offs_d = tl.arange(0, BLOCK_D)
+
+    # Load Q block: (BLOCK_M, BLOCK_D)
+    q_ptrs = (
+        q_ptr
+        + pid_bh * stride_q0
+        + offs_m[:, None] * stride_q1
+        + offs_d[None, :] * stride_q2
+    )
+    mask_q = (offs_m[:, None] < seq_q) & (offs_d[None, :] < head_dim)
+    q_block = tl.load(q_ptrs, mask=mask_q, other=0.0).to(tl.float32)
+
+    # Initialize online softmax state
+    m_i = tl.full([BLOCK_M], value=float('-inf'), dtype=tl.float32)
+    l_i = tl.zeros([BLOCK_M], dtype=tl.float32)
+    O_i = tl.zeros([BLOCK_M, BLOCK_D], dtype=tl.float32)
+
+    # For causal, only iterate up to the diagonal
+    if IS_CAUSAL:
+        k_end = tl.minimum(seq_k, (pid_m + 1) * BLOCK_M)
+    else:
+        k_end = seq_k
+
+    for k_start in range(0, k_end, BLOCK_N):
+        offs_n = k_start + tl.arange(0, BLOCK_N)
+
+        # Load K block: (BLOCK_N, BLOCK_D)
+        k_ptrs = (
+            k_ptr
+            + pid_bh * stride_k0
+            + offs_n[:, None] * stride_k1
+            + offs_d[None, :] * stride_k2
+        )
+        mask_k = (offs_n[:, None] < seq_k) & (offs_d[None, :] < head_dim)
+        k_block = tl.load(k_ptrs, mask=mask_k, other=0.0).to(tl.float32)
+
+        # Load V block: (BLOCK_N, BLOCK_D)
+        v_ptrs = (
+            v_ptr
+            + pid_bh * stride_v0
+            + offs_n[:, None] * stride_v1
+            + offs_d[None, :] * stride_v2
+        )
+        v_block = tl.load(v_ptrs, mask=mask_k, other=0.0).to(tl.float32)
+
+        # S_ij = Q @ K^T * scale
+        S_ij = tl.dot(q_block, tl.trans(k_block)) * scale
+
+        # Causal mask
+        if IS_CAUSAL:
+            S_ij = tl.where(offs_m[:, None] >= offs_n[None, :], S_ij, float('-inf'))
+
+        # Mask out-of-bounds K positions
+        S_ij = tl.where(offs_n[None, :] < seq_k, S_ij, float('-inf'))
+
+        # Online softmax update
+        m_ij = tl.max(S_ij, axis=1)
+        m_new = tl.maximum(m_i, m_ij)
+        alpha = tl.exp(m_i - m_new)
+        P_ij = tl.exp(S_ij - m_new[:, None])
+
+        l_i = alpha * l_i + tl.sum(P_ij, axis=1)
+        O_i = alpha[:, None] * O_i + tl.dot(P_ij.to(tl.float32), v_block)
+
+        m_i = m_new
+
+    # Final normalization
+    l_i = tl.where(l_i == 0.0, 1.0, l_i)
+    O_i = O_i / l_i[:, None]
+
+    # Store output
+    o_ptrs = (
+        output_ptr
+        + pid_bh * stride_o0
+        + offs_m[:, None] * stride_o1
+        + offs_d[None, :] * stride_o2
+    )
+    mask_o = (offs_m[:, None] < seq_q) & (offs_d[None, :] < head_dim)
+    tl.store(o_ptrs, O_i, mask=mask_o)
+
+
+# ============================================================================
 # Attention Classes
 # ============================================================================
 
