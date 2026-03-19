@@ -79,7 +79,7 @@ def rmsnorm_kernel(
     x = tl.load(row_x + cols, mask=mask, other=0.0)
     w = tl.load(w_ptr + cols, mask=mask, other=0.0)
 
-    x_sq = x * x3
+    x_sq = x * x
     mean_sq = tl.sum(x_sq, axis=0) / hidden_size
 
     rrms = 1.0 / tl.sqrt(mean_sq + eps)
@@ -309,10 +309,11 @@ def linear_gelu_kernel(
         )
         acc += tl.dot(a, b)
 
-    sqrt_2_over_pi = 0.7978845608028654
-    acc3 = acc * acc * acc
-    inner = sqrt_2_over_pi * (acc + 0.044715 * acc3)
-    acc = acc * 0.5 * (1.0 + tl.libdevice.tanh(inner))
+    # sqrt_2_over_pi = 0.7978845608028654
+    # acc3 = acc * acc * acc
+    # inner = sqrt_2_over_pi * (acc + 0.044715 * acc3)
+    # acc = acc * 0.5 * (1.0 + tl.libdevice.tanh(inner))
+    acc = 0.5 * acc * (1.0 + tl.math.erf(acc / 1.4142135623730951))
 
     tl.store(
         c_ptr + offs_m[:, None] * stride_cm + offs_n[None, :] * stride_cn,
@@ -938,7 +939,7 @@ def softmax(x: torch.Tensor, axis: int = -1) -> torch.Tensor:
 class MLP:
     """MLP with SwiGLU gating using Triton."""
 
-    FUSED = True
+    FUSED = False
     TILE_M, TILE_N, TILE_K = 64, 64, 32
 
     def __init__(
@@ -1065,7 +1066,7 @@ class MLP:
 class EncoderMLP:
     """Encoder MLP (no gating) using Triton."""
 
-    FUSED = True
+    FUSED = False
     TILE_M, TILE_N, TILE_K = 64, 64, 32
 
     def __init__(

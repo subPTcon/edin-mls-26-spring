@@ -182,14 +182,23 @@ def attention_output_kernel(
         k_offsets = k_start + tl.arange(0, BLOCK_K)
         k_mask = k_offsets < seq_k
 
+        # =============================================
+        # Step 1: 加载注意力权重 — 形状 [BLOCK_K]
+        # attn 的形状是 [batch_heads, seq_q, seq_k]
+        # 对于当前的 (pid_bh, pid_q)，只需加载 seq_k 维度
+        # =============================================
         w_ptrs = (
             attn_ptr
-            + pid_bh * stride_v0
-            + k_offsets[:, None] * stride_v1
-            + d_offsets[None, :] * stride_v2
+            + pid_bh * stride_w0
+            + pid_q * stride_w1
+            + k_offsets * stride_w2
         )
-        weights = tl.load(w_ptrs, mask=k_mask, other=0.0)
+        weights = tl.load(w_ptrs, mask=k_mask, other=0.0)  # 形状: [BLOCK_K]
 
+        # =============================================
+        # Step 2: 加载 V 块 — 形状 [BLOCK_K, BLOCK_D]
+        # V 的形状是 [batch_heads, seq_k, head_dim]
+        # =============================================
         v_ptrs = (
             v_ptr
             + pid_bh * stride_v0
@@ -197,10 +206,19 @@ def attention_output_kernel(
             + d_offsets[None, :] * stride_v2
         )
         mask_kd = k_mask[:, None] & d_mask[None, :]
-        v_block = tl.load(v_ptrs, mask=mask_kd, other=0.0)
+        v_block = tl.load(v_ptrs, mask=mask_kd, other=0.0)  # 形状: [BLOCK_K, BLOCK_D]
 
+        # =============================================
+        # Step 3: 加权求和
+        # weights[:, None] -> [BLOCK_K, 1]
+        # weights[:, None] * v_block -> [BLOCK_K, BLOCK_D]
+        # tl.sum(..., axis=0) -> [BLOCK_D]
+        # =============================================
         acc += tl.sum(weights[:, None] * v_block, axis=0)
 
+    # =============================================
+    # Step 4: 存储输出
+    # =============================================
     o_ptrs = (
         output_ptr
         + pid_bh * stride_o0
