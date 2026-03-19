@@ -1,0 +1,227 @@
+{\rtf1\ansi\ansicpg936\cocoartf2867
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww17720\viewh20680\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 \uc0\u55357 \u56879 \u25105 \u30340 \u23454 \u29616 \u65288 MLP.FUSED = True EncoderMLP.FUSED = True\u65289 :\
+Sequence length: 256\
+\
+[1] Standard Attention (einsum)...\
+  Standard: 0.41ms (+/- 0.26ms)\
+\
+[2] Torch Matmul Attention...\
+  Torch matmul: 0.19ms (+/- 0.02ms)\
+\
+======================================================================\
+LINEAR/GEMM OPERATION PROFILING (TORCH)\
+======================================================================\
+\
+Input shape: (1, 256, 2048)\
+Projection: 2048 -> 5632\
+\
+[1] Torch matmul...\
+  Torch matmul: 0.14ms (+/- 0.01ms)\
+\
+[2] Torch einsum...\
+  Torch einsum: 0.15ms (+/- 0.01ms)\
+\
+[3] Torch GEMM (batched)...\
+  Torch GEMM: 0.13ms (+/- 0.01ms)\
+\
+[4] Full MLP (SwiGLU style)...\
+  Full MLP: 2.31ms (+/- 2.74ms)\
+\
+  Estimated GFLOPS (projection): 43182.9\
+\
+======================================================================\
+PERFORMANCE SUMMARY\
+======================================================================\
+\
+Component                              Time (ms)   % of Total\
+------------------------------------------------------------\
+Audio Encoder                           303.31ms       16.4%\
+Multi-modal Projector                     5.54ms        0.3%\
+Decoder (Prefill)                       236.20ms       12.8%\
+Decoder (50 decode steps)              1306.79ms       70.6%\
+------------------------------------------------------------\
+TOTAL (estimated for 50 tokens)        1851.84ms\
+\
+------------------------------------------------------------\
+Attention Methods Comparison:\
+------------------------------------------------------------\
+  Standard (einsum)               0.41ms\
+  Torch matmul                    0.19ms\
+\
+------------------------------------------------------------\
+Linear/GEMM Methods Comparison:\
+------------------------------------------------------------\
+  Torch matmul                    0.14ms\
+  Torch einsum                    0.15ms\
+  Torch GEMM                      0.13ms\
+  Full MLP (SwiGLU)               2.31ms\
+\
+\uc0\u55357 \u56879 \u25105 \u30340 \u23454 \u29616 \u65288 MLP.FUSED = False EncoderMLP.FUSED = False)\
+Sequence length: 256\
+\
+[1] Standard Attention (einsum)...\
+  Standard: 0.36ms (+/- 0.21ms)\
+\
+[2] Torch Matmul Attention...\
+  Torch matmul: 0.19ms (+/- 0.02ms)\
+\
+======================================================================\
+LINEAR/GEMM OPERATION PROFILING (TORCH)\
+======================================================================\
+\
+Input shape: (1, 256, 2048)\
+Projection: 2048 -> 5632\
+\
+[1] Torch matmul...\
+  Torch matmul: 0.14ms (+/- 0.01ms)\
+\
+[2] Torch einsum...\
+  Torch einsum: 0.16ms (+/- 0.01ms)\
+\
+[3] Torch GEMM (batched)...\
+  Torch GEMM: 0.13ms (+/- 0.01ms)\
+\
+[4] Full MLP (SwiGLU style)...\
+  Full MLP: 2.29ms (+/- 2.71ms)\
+\
+  Estimated GFLOPS (projection): 43068.7\
+\
+======================================================================\
+PERFORMANCE SUMMARY\
+======================================================================\
+\
+Component                              Time (ms)   % of Total\
+------------------------------------------------------------\
+Audio Encoder                           322.59ms       16.7%\
+Multi-modal Projector                     5.32ms        0.3%\
+Decoder (Prefill)                       226.54ms       11.7%\
+Decoder (50 decode steps)              1377.11ms       71.3%\
+------------------------------------------------------------\
+TOTAL (estimated for 50 tokens)        1931.57ms\
+\
+------------------------------------------------------------\
+Attention Methods Comparison:\
+------------------------------------------------------------\
+  Standard (einsum)               0.36ms\
+  Torch matmul                    0.19ms\
+\
+------------------------------------------------------------\
+Linear/GEMM Methods Comparison:\
+------------------------------------------------------------\
+  Torch matmul                    0.14ms\
+  Torch einsum                    0.16ms\
+  Torch GEMM                      0.13ms\
+  Full MLP (SwiGLU)               2.29ms\
+\
+\
+\uc0\u55356 \u57136 example\u23454 \u29616 :\
+Sequence length: 256\
+\
+[1] Standard Attention (einsum)...\
+  Standard: 0.41ms (+/- 0.27ms)\
+\
+[2] Torch Matmul Attention...\
+  Torch matmul: 0.19ms (+/- 0.02ms)\
+\
+======================================================================\
+LINEAR/GEMM OPERATION PROFILING (TORCH)\
+======================================================================\
+\
+Input shape: (1, 256, 2048)\
+Projection: 2048 -> 5632\
+\
+[1] Torch matmul...\
+  Torch matmul: 0.14ms (+/- 0.01ms)\
+\
+[2] Torch einsum...\
+  Torch einsum: 0.15ms (+/- 0.01ms)\
+\
+[3] Torch GEMM (batched)...\
+  Torch GEMM: 0.13ms (+/- 0.01ms)\
+\
+[4] Full MLP (SwiGLU style)...\
+  Full MLP: 2.28ms (+/- 2.69ms)\
+\
+  Estimated GFLOPS (projection): 42911.8\
+\
+======================================================================\
+PERFORMANCE SUMMARY\
+======================================================================\
+\
+Component                              Time (ms)   % of Total\
+------------------------------------------------------------\
+Audio Encoder                           302.20ms       16.2%\
+Multi-modal Projector                     5.54ms        0.3%\
+Decoder (Prefill)                       236.65ms       12.7%\
+Decoder (50 decode steps)              1319.53ms       70.8%\
+------------------------------------------------------------\
+TOTAL (estimated for 50 tokens)        1863.91ms\
+\
+------------------------------------------------------------\
+Attention Methods Comparison:\
+------------------------------------------------------------\
+  Standard (einsum)               0.41ms\
+  Torch matmul                    0.19ms\
+\
+------------------------------------------------------------\
+Linear/GEMM Methods Comparison:\
+------------------------------------------------------------\
+  Torch matmul                    0.14ms\
+  Torch einsum                    0.15ms\
+  Torch GEMM                      0.13ms\
+  Full MLP (SwiGLU)               2.28ms\
+\
+\
+\
+\
+\
+\uc0\u55358 \u56810  Fused linear + gelu\u23454 \u39564 \u32467 \u26524 \u23545 \u29031 \
+=== EncoderMLP (Linear+GELU) ===\
+     M       Fused     Unfused   Speedup\
+     1      0.369ms      0.499ms     1.35x\
+    64      0.251ms      0.323ms     1.29x\
+   256      0.236ms      0.315ms     1.34x\
+   512      0.231ms      0.311ms     1.35x\
+  1024      0.356ms      0.391ms     1.10x\
+  2048      0.687ms      0.737ms     1.07x\
+  4096      1.260ms      1.386ms     1.10x\
+\
+=== MLP SwiGLU (Linear+SiLU+Gate) ===\
+     M       Fused     Unfused   Speedup\
+     1      0.833ms      0.847ms     1.02x\
+    64      0.802ms      0.819ms     1.02x\
+   256      1.199ms      1.306ms     1.09x\
+   512      1.941ms      2.155ms     1.11x\
+  1024      3.766ms      4.259ms     1.13x\
+  2048      7.248ms      8.387ms     1.16x\
+  4096     14.347ms     16.993ms     1.18x\
+\
+\
+\
+\uc0\u9888 \u65039 Flash Attention \u23454 \u39564 \u32467 \u26524 \
+=== FlashAttention vs Naive 3-Kernel ===\
+                                  Config       Flash    3-Kernel   Speedup\
+------------------------------------------------------------------------------\
+                 B=2 H=20 S=16 D=64 full      0.076ms      0.108ms     1.43x  (max_diff=2.71e-03)\
+                 B=2 H=20 S=64 D=64 full      0.080ms      0.115ms     1.44x  (max_diff=3.21e-03)\
+                B=2 H=20 S=128 D=64 full      0.074ms      0.120ms     1.62x  (max_diff=2.29e-03)\
+                B=2 H=20 S=256 D=64 full      0.074ms      0.252ms     3.42x  (max_diff=2.08e-03)\
+              B=1 H=28 S=16 D=128 causal      0.140ms      0.178ms     1.27x  (max_diff=2.46e-03)\
+              B=1 H=28 S=64 D=128 causal      0.072ms      0.192ms     2.67x  (max_diff=2.89e-03)\
+             B=1 H=28 S=128 D=128 causal      0.073ms      0.197ms     2.69x  (max_diff=2.84e-03)\
+             B=1 H=28 S=256 D=128 causal      0.183ms      0.437ms     2.39x  (max_diff=3.51e-03)\
+\
+=== Memory Usage Comparison (B=2 H=20 S=256 D=64) ===\
+  FlashAttention peak alloc: 3584.0 KB\
+  3-Kernel peak alloc:       10240.0 KB\
+  Memory saved:              6656.0 KB\
+\
+\
+\
+}
