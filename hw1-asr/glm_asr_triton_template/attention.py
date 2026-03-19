@@ -496,8 +496,13 @@ def scaled_dot_product_attention(
             device=q.device,
         )
 
-        BLOCK_M = 64
-        BLOCK_N = 64
+        # Reduce block sizes for large head_dim to fit shared memory
+        if head_dim_padded <= 64:
+            BLOCK_M = 64
+            BLOCK_N = 64
+        else:
+            BLOCK_M = 32
+            BLOCK_N = 32
         grid = (batch * num_heads, triton.cdiv(seq_q, BLOCK_M))
 
         flash_attention_kernel[grid](
