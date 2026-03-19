@@ -1,0 +1,586 @@
+[33mcommit d5d495293fd8028989295395516c3edf3ea259bd[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: subPTcon <michaelCS26@outlook.com>
+Date:   Thu Mar 19 09:32:01 2026 +0000
+
+    fused linear + gelu对照实验
+
+[33mcommit 1ea5711b276e4d7867ab4b9602150fb621759158[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Michael_Yuen <jerell244466666@gmail.com>
+Date:   Wed Mar 18 14:27:00 2026 +0800
+
+    softmax_inplace_kernel attention_output_kernel compute_freqs_kernel实现
+
+[33mcommit 0e2d8a57a2030258d7ff60ad2c0b2e43db96e0fc[m
+Author: Michael_Yuen <jerell244466666@gmail.com>
+Date:   Tue Mar 17 20:53:19 2026 +0800
+
+    attention_scores_kernel实现
+
+[33mcommit 36cdecabcbfdef9dc6b70a7a0a4cb3f483a492b3[m
+Author: Michael_Yuen <jerell244466666@gmail.com>
+Date:   Tue Mar 17 20:14:23 2026 +0800
+
+    layernorm_kernel实现 linear_kernel_tf32实现
+
+[33mcommit aacd76495dd5fdccd445ffd4f0a1a9f962181e3f[m
+Author: subPTcon <michaelCS26@outlook.com>
+Date:   Sun Mar 15 12:25:59 2026 +0000
+
+    softmax_kerne rmsnorm_kernel实现
+
+[33mcommit 4f7a6227e4434617f8b0f2ba0f6d26a69cfd7549[m
+Author: subPTcon <michaelCS26@outlook.com>
+Date:   Sun Mar 15 11:32:37 2026 +0000
+
+    silu_kernel gelu_kernel实现
+
+[33mcommit 441f0558a94ba56fc66500bd45f3a036c9ba57db[m
+Author: Yinsicheng Jiang <sean.jiang01@outlook.com>
+Date:   Fri Mar 6 16:01:03 2026 +0000
+
+    Update PyLet scheduler host in README
+
+[33mcommit 02982cf1fd4a77106f05ff1c2a0d83181ce705cb[m
+Merge: ea5287c 5bb9f4b
+Author: anyin233 <35858233+anyin233@users.noreply.github.com>
+Date:   Thu Mar 5 15:35:01 2026 +0000
+
+    Merge pull request #9 from ed-aisys/pylet-examples
+    
+    Pylet examples
+
+[33mcommit 5bb9f4b9515fffb02bfa6a3add11af26e4575e6c[m
+Author: SecretSettler <sean.jiang01@outlook.com>
+Date:   Thu Mar 5 15:18:19 2026 +0000
+
+    Update to use uv
+
+[33mcommit 521d66190198d6539af3f6b9c478971b40c4f83c[m
+Author: SecretSettler <sean.jiang01@outlook.com>
+Date:   Thu Mar 5 14:29:01 2026 +0000
+
+    Update README
+
+[33mcommit 5bdf7f711fa7266c26cf7bd0641a08ede9d63b26[m
+Author: SecretSettler <sean.jiang01@outlook.com>
+Date:   Thu Mar 5 14:19:55 2026 +0000
+
+    Update pylet_example readme
+
+[33mcommit e04d5f8adaf69a32dbe065d9381e87de0ecb6256[m
+Author: SecretSettler <sean.jiang01@outlook.com>
+Date:   Thu Mar 5 12:45:21 2026 +0000
+
+    Fix sbatch bugs
+
+[33mcommit 1a2bb189482161a7f04879e4b82ff09f94ae3078[m
+Author: SecretSettler <sean.jiang01@outlook.com>
+Date:   Thu Mar 5 12:44:01 2026 +0000
+
+    Update sbatch
+
+[33mcommit 1a7b1da9d4557785e23219b8a13423c2bd6134eb[m
+Author: SecretSettler <sean.jiang01@outlook.com>
+Date:   Thu Mar 5 04:45:38 2026 +0000
+
+    Add examples
+
+[33mcommit 3e72173ef897b05a82c1df4442dadf3965cdf214[m
+Author: SecretSettler <sean.jiang01@outlook.com>
+Date:   Thu Mar 5 01:28:15 2026 +0000
+
+    [fix] Fix example bugs
+
+[33mcommit 591b38ee5a10b8c9665aca38943f685eabd8c40d[m
+Author: SecretSettler <sean.jiang01@outlook.com>
+Date:   Thu Mar 5 01:00:21 2026 +0000
+
+    Update examples
+
+[33mcommit e99e19d464069fa2e82fc960efcc61fe9a72324a[m
+Author: SecretSettler <sean.jiang01@outlook.com>
+Date:   Thu Mar 5 00:52:48 2026 +0000
+
+    Update examples
+
+[33mcommit 1eead15d74df4701759c18b08ed49c875598d84a[m
+Author: SecretSettler <sean.jiang01@outlook.com>
+Date:   Wed Mar 4 21:03:07 2026 +0000
+
+    Add pylet examples
+
+[33mcommit ea5287c8bb02bbb92bdcc9eea750c04919c06b7f[m
+Merge: e0f8263 40c68b7
+Author: Yeqi Huang <chivier.humber@outlook.com>
+Date:   Wed Mar 4 16:41:24 2026 +0000
+
+    Merge pull request #8 from ed-aisys/fix-benchmark-detailed
+    
+    remove attention-only and linear-only in benchmar_detailed.py
+
+[33mcommit e0f82639c62842897a7a6c948aef7d8c9e8d7122[m
+Merge: 18ed1f2 f74516c
+Author: Yeqi Huang <chivier.humber@outlook.com>
+Date:   Wed Mar 4 16:41:09 2026 +0000
+
+    Merge pull request #5 from sabharwalrishabh/main
+    
+    Clarify use_triton flag behavior in layers.py
+
+[33mcommit 40c68b70f42a2ee43790cfbb1cd1e530220051a4[m
+Author: Yangshen <yangshen.d@outlook.com>
+Date:   Wed Mar 4 13:33:22 2026 +0000
+
+    remove attention-only and linear-only
+
+[33mcommit 18ed1f2e83b072cdb5fdba5af5391afe727df194[m
+Author: anyin233 <35858233+anyin233@users.noreply.github.com>
+Date:   Tue Mar 3 15:48:21 2026 +0000
+
+    deps: Update cupy package installation for CUDA 12, make it can be installed directly on the login node.
+
+[33mcommit f74516c55b01dce4f7804261b0feb663935996cb[m
+Author: Rishabh Sabharwal <s2850909@ed.ac.uk>
+Date:   Thu Feb 26 20:04:44 2026 +0530
+
+    Clarify use_triton flag behavior in layers.py
+    
+    Updated comments to clarify the purpose of the use_triton flag and its behavior regarding hidden_size.
+
+[33mcommit 3079826e7a4e1fb0a4fd98032e812a843480dbc6[m
+Author: Yeqi Huang <chivier.humber@outlook.com>
+Date:   Thu Feb 26 14:18:18 2026 +0000
+
+    Update grading criteria to troubleshooting guide
+
+[33mcommit 4da607d82864ceb90a40cef56495dc10a7d3868a[m
+Merge: acbfac0 30263c2
+Author: Luo Mai <luo.mai.cs@gmail.com>
+Date:   Fri Feb 20 06:58:57 2026 +0000
+
+    Merge pull request #4 from JackyYao1021/fix-memory-allocation
+    
+    Add note about memory allocation on Teaching cluster
+
+[33mcommit 30263c25e7b935a5189e10590d9456308bde5845[m
+Author: Yujie YAO <scyyy5@exmail.nottingham.ac.uk>
+Date:   Tue Feb 17 15:59:24 2026 +0000
+
+    docs: add note about memory allocation on Teaching cluster
+
+[33mcommit acbfac0afe2d878d5033c39d442a7b8238041418[m
+Author: Chivier Humber <chivier.humber@outlook.com>
+Date:   Thu Feb 12 14:16:15 2026 +0000
+
+    remove lines instructions
+
+[33mcommit e84d9ee4a65707eadfba69e1fa7fd6674c522be7[m
+Author: Yeqi Huang <chivier.humber@outlook.com>
+Date:   Thu Feb 12 14:12:01 2026 +0000
+
+    Revise README by removing grading criteria
+    
+    Removed grading criteria section and updated reference implementations.
+
+[33mcommit 7974700815fef30fdc453b19b3388227218e2a4a[m
+Author: Yeqi Huang <chivier.humber@outlook.com>
+Date:   Thu Feb 12 11:33:23 2026 +0000
+
+    Remove duplicate mention of student guide
+    
+    Removed redundant information about the student guide.
+
+[33mcommit 61ec5e5cfbdfd63046a36e400ad9f361546bcf38[m
+Author: Yeqi Huang <chivier.humber@outlook.com>
+Date:   Thu Feb 12 11:32:31 2026 +0000
+
+    feat: update HW1 docs
+
+[33mcommit a962bc04e7cc655a21372755bf6a07cda1406c1d[m
+Author: Yanwei Ye <yanwei.ye@ed.ac.uk>
+Date:   Thu Feb 12 04:17:53 2026 +0000
+
+    fix: update setup script for cutile
+
+[33mcommit 7edb186b9b0774327a6ee7ad5c2a2aec2477048c[m
+Author: Yanwei Ye <yanwei.ye@ed.ac.uk>
+Date:   Wed Feb 11 18:40:05 2026 +0000
+
+    update hw1 readme structure
+
+[33mcommit f9e57c3aa71ee65846ca4b08d229fa1586d80ed8[m
+Author: Yanwei Ye <yanwei.ye@ed.ac.uk>
+Date:   Wed Feb 11 16:35:10 2026 +0000
+
+    fix: fix cutile experiment dependnecy installnation script
+
+[33mcommit 6738c56c1f741f2d1a4a5790f058f69c40334325[m
+Author: Yangshen Deng <yangshen.d@outlook.com>
+Date:   Fri Feb 6 15:45:18 2026 +0000
+
+    update hw1 readme
+
+[33mcommit 357659dc5f31ebee3bb853a0d55939aae3e583e3[m
+Author: Yangshen Deng <yangshen.d@outlook.com>
+Date:   Fri Feb 6 15:41:57 2026 +0000
+
+    update notes
+
+[33mcommit 067553b936850cd6721fe5bb695faa79a6f6db7c[m
+Author: Yangshen Deng <yangshen.d@outlook.com>
+Date:   Fri Feb 6 15:29:16 2026 +0000
+
+    update doc
+
+[33mcommit 1a0a3f9bc216fef98fa3275dd039e7624002ae4d[m
+Author: Yangshen Deng <yangshen.d@outlook.com>
+Date:   Fri Feb 6 15:27:25 2026 +0000
+
+    update doc
+
+[33mcommit 0b03b56fbd14295adb93d42b2899ed563c5c7d37[m
+Author: Yangshen Deng <yangshen.d@outlook.com>
+Date:   Fri Feb 6 15:19:25 2026 +0000
+
+    fix doc
+
+[33mcommit 525c3c4c3c584ab4c9e0ec7ff8d8ee202933d374[m
+Author: Yangshen Deng <yangshen.d@outlook.com>
+Date:   Fri Feb 6 15:18:27 2026 +0000
+
+    update hw1 triton template
+
+[33mcommit 219021c4f47142745e15258c31dd78dc67715bdc[m
+Author: Yangshen Deng <yangshen.d@outlook.com>
+Date:   Fri Feb 6 00:14:12 2026 +0000
+
+    Add clean triton example
+
+[33mcommit c58db180253931411675e5554d0126d8c6ad6650[m
+Author: Yangshen Deng <yangshen.d@outlook.com>
+Date:   Thu Feb 5 21:15:22 2026 +0000
+
+    remove redundant template
+
+[33mcommit 8260ed1b6b4ae8d1aae155da5ac87480cc481a84[m
+Author: Yangshen Deng <yangshen.d@outlook.com>
+Date:   Thu Feb 5 18:27:54 2026 +0000
+
+    Remove hach and put triton as the first choice
+
+[33mcommit c093b21c377d7fceec001915309b37d4ef8d082b[m
+Author: Yangshen Deng <yangshen.d@outlook.com>
+Date:   Thu Feb 5 17:50:44 2026 +0000
+
+    remove flash attention impl
+
+[33mcommit cbf2eb8e3efa37c32a974af0adcd7619e9b6f80b[m
+Author: Yangshen Deng <yangshen.d@outlook.com>
+Date:   Thu Feb 5 17:05:36 2026 +0000
+
+    remove redundant cutile version in hw1
+
+[33mcommit 814d19b6ec5847b4499bde6e7607455e427737e2[m
+Author: Yangshen Deng <yangshen.d@outlook.com>
+Date:   Wed Feb 4 16:42:56 2026 +0000
+
+    fix hw1 torch scratch bug
+
+[33mcommit 6d047f1de2f3b43f7fcb91e74b0d2ac58a93eb9a[m
+Author: Yangshen Deng <yangshen.d@outlook.com>
+Date:   Wed Feb 4 02:17:20 2026 +0000
+
+    update teaching cluster tutorials
+
+[33mcommit b0da00624fb568079a6bdeb7c59f0f4cc49ce9f4[m
+Author: Yangshen Deng <yangshen.d@outlook.com>
+Date:   Wed Feb 4 01:29:24 2026 +0000
+
+    add hw1 note
+
+[33mcommit 8a5a52be6ffe405a9c651bfb34b42ddf45c31c93[m
+Author: Yangshen Deng <yangshen.d@outlook.com>
+Date:   Wed Feb 4 01:17:21 2026 +0000
+
+    add instruction to activate conda
+
+[33mcommit 4aa1deb0ed9c021b61d8ebd751723a1196b9f86d[m
+Author: Yangshen Deng <yangshen.d@outlook.com>
+Date:   Wed Feb 4 01:10:16 2026 +0000
+
+    update readme
+
+[33mcommit 966952e2d01bc52b85a2dd7f58095f8c4c06dc02[m
+Author: Yangshen Deng <yangshen.d@outlook.com>
+Date:   Wed Feb 4 00:57:44 2026 +0000
+
+    update  readme and triton setup
+
+[33mcommit bda14a993c719a74af2babe86c4868b4947c9f4d[m
+Author: Yeqi Huang <chivier.humber@outlook.com>
+Date:   Tue Feb 3 22:11:16 2026 +0000
+
+    Update README with framework details and homework info
+    
+    Clarify framework comparison and homework instructions.
+
+[33mcommit 8e0b1c018519bae93db64372d5daeb9991052f17[m
+Author: Yeqi Huang <chivier.humber@outlook.com>
+Date:   Tue Feb 3 22:08:05 2026 +0000
+
+    Update README to remove Backend column from table
+
+[33mcommit 54ce8e2eabb69433ddba6e4398282664dc66bc59[m
+Author: Chivier Humber <chivier.humber@outlook.com>
+Date:   Tue Feb 3 21:46:02 2026 +0000
+
+    update: about how to choose your framework
+
+[33mcommit 2725f1c240292edcdb3da5bf8046d0aa90208ac9[m
+Author: Chivier Humber <chivier.humber@outlook.com>
+Date:   Tue Feb 3 21:43:49 2026 +0000
+
+    update: update README and teaching cluster note
+
+[33mcommit 6245b9fbbfb77cd51924f8fe230e1ca15c171d1f[m
+Merge: 80d1623 864e965
+Author: Yeqi Huang <chivier.humber@outlook.com>
+Date:   Fri Jan 30 23:55:00 2026 +0000
+
+    Merge pull request #2 from TKONIY/main
+    
+    add triton tutorial
+
+[33mcommit 864e96591a6899c967d10e3c409d44173ede9e07[m
+Author: Yangshen Deng <yangshen.d@outlook.com>
+Date:   Fri Jan 30 19:42:06 2026 +0000
+
+    add triton tutorial
+
+[33mcommit 80d16234692bd906fff83cf1a8f75d7f6334bfb5[m
+Author: Chivier Humber <chivier.humber@outlook.com>
+Date:   Fri Jan 30 16:53:52 2026 +0000
+
+    feat: add platform-specific requirements lock files
+    
+    Add requirements-blackwell.lock for Blackwell GPU (RTX PRO 6000, sm_120)
+    environment. Lock files are platform-specific due to different CUDA
+    version requirements across GPU architectures. Generic requirements.lock
+    is now gitignored to prevent accidental commits of wrong platform deps.
+    
+    Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
+
+[33mcommit dc4b01bf1f5c42806f58492666ed740e8e47bfa9[m
+Merge: 041e3a3 8083110
+Author: Yeqi Huang <chivier.humber@outlook.com>
+Date:   Fri Jan 30 15:56:00 2026 +0000
+
+    Merge pull request #1 from TKONIY/main
+    
+    update show tunnel
+
+[33mcommit 041e3a347181218e342b1a43eb6c5cc09a0575a4[m
+Author: Chivier Humber <chivier.humber@outlook.com>
+Date:   Fri Jan 30 15:51:59 2026 +0000
+
+    chore: remove obsolete files from cutile-tutorial
+    
+    - Deleted requirements-hopper.lock and transpose_2d.py as they are no longer needed in the project.
+
+[33mcommit 14a751b5dd8ac5f39ee6a1a85097d0b130eaaee7[m
+Author: Chivier Humber <chivier.humber@outlook.com>
+Date:   Fri Jan 30 14:55:16 2026 +0000
+
+    refactor: move hack and environment files to utils directory
+    
+    - Move hack.sh and hack-hopper/ from cutile-tutorial to utils
+    - Update path references in setup-env.sh and README.md
+    - Centralizes all environment/installation utilities in utils/
+    
+    Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
+
+[33mcommit 08f1432d1d95f272cfc99c73344d0b9614d400c3[m
+Author: Chivier Humber <chivier.humber@outlook.com>
+Date:   Fri Jan 30 14:38:44 2026 +0000
+
+    feat: add all ASR dependencies to hack.sh install
+    
+    - Add PyTorch installation (cu121)
+    - Add transformers, safetensors, soundfile, librosa, accelerate
+    
+    Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
+
+[33mcommit b0cca0dfc320a2913c78cb171b68dbb742c7f8be[m
+Author: Chivier Humber <chivier.humber@outlook.com>
+Date:   Fri Jan 30 14:33:25 2026 +0000
+
+    fix: add missing functions and handle edge cases in interpreter mode
+    
+    - Add data types (int32, float32, etc.) to ct namespace
+    - Add more functions: cat, gather, scatter, broadcast_to, expand_dims, etc.
+    - Fix scalar load/store (shape=() case)
+    - Fix multi-dimensional load/store indexing
+    
+    Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
+
+[33mcommit 8083110f031ec858b17d6e702f9fbeb9704df1f8[m
+Author: Yangshen Deng <yangshen.d@outlook.com>
+Date:   Fri Jan 30 14:18:11 2026 +0000
+
+    update show tunnel
+
+[33mcommit 01a1252261a0c6061eeea6697935eb06ac616d84[m
+Author: Chivier Humber <chivier.humber@outlook.com>
+Date:   Fri Jan 30 14:12:46 2026 +0000
+
+    feat: add triton backend and improved hack.sh setup
+    
+    - hack.sh now supports --install flag to install dependencies (triton, cupy)
+    - Implemented cuTile -> Triton AST translator (WIP)
+    - Added robust interpreter mode using CuPy as fallback
+    - Interpreter mode patches kernel globals to provide working ct.* functions
+    
+    Usage:
+      source hack.sh --install  # First time: install deps
+      source hack.sh            # Set up environment
+      python 1-vectoradd/vectoradd.py
+    
+    Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
+
+[33mcommit db2e1af367eb5fe73e1a049fc771c49b655c9c06[m
+Author: Chivier Humber <chivier.humber@outlook.com>
+Date:   Fri Jan 30 14:06:25 2026 +0000
+
+    refactor: replace kernel registry with interpreter mode
+    
+    Instead of pre-defining implementations for each kernel by name,
+    now we directly execute student's kernel code by:
+    1. Iterating over all blocks in the grid
+    2. Setting up execution context with current block ID
+    3. Calling the kernel function which uses ct.bid(), ct.load(), ct.store()
+    
+    This approach respects student's kernel logic rather than bypassing it.
+    
+    Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
+
+[33mcommit fe175b88786bb74246eba5a1f11adbcea5b6c6a7[m
+Author: Chivier Humber <chivier.humber@outlook.com>
+Date:   Fri Jan 30 14:03:03 2026 +0000
+
+    update: new hopper hacker
+
+[33mcommit fe55646a89778ba5221221c398645fa3668a609a[m
+Author: Chivier Humber <chivier.humber@outlook.com>
+Date:   Fri Jan 30 13:51:11 2026 +0000
+
+    update: new readmee
+
+[33mcommit 08025a70aa0aaeebd36945558f430ec1e29c6226[m
+Author: Chivier Humber <chivier.humber@outlook.com>
+Date:   Fri Jan 30 13:34:20 2026 +0000
+
+    update: remove v10
+
+[33mcommit d43670b469d41982161faf9f82bf57b761e80dd3[m
+Author: Chivier Humber <chivier.humber@outlook.com>
+Date:   Fri Jan 30 13:20:08 2026 +0000
+
+    chore: add .gitignore and remove __pycache__ from tracking
+    
+    - Add root .gitignore with Python cache patterns
+    - Remove all __pycache__ directories from git tracking
+    
+    Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
+
+[33mcommit 67cd683981c3a544e29328140aa9d36565e103c5[m
+Author: Chivier Humber <chivier.humber@outlook.com>
+Date:   Fri Jan 30 13:17:19 2026 +0000
+
+    update: fix hopper arch
+
+[33mcommit 191468250d5888c91cede9728fec4aa6b5f33c89[m
+Author: Chivier Humber <chivier.humber@outlook.com>
+Date:   Fri Jan 30 08:14:26 2026 +0000
+
+    update: hack for hopper
+
+[33mcommit 442064d9a7cc3d42ecf067dc5d9d95f50f2be242[m
+Author: Chivier Humber <chivier.humber@outlook.com>
+Date:   Thu Jan 29 16:56:39 2026 +0000
+
+    update: update homework
+
+[33mcommit cd94f532567adb95551266ff661dac26eb1fcfb4[m
+Merge: 7fe15fb d3f0fa4
+Author: Chivier Humber <chivier.humber@outlook.com>
+Date:   Thu Jan 29 14:11:31 2026 +0000
+
+    Merge branch 'main' of https://github.com/ed-aisys/edin-mls-26-spring
+
+[33mcommit 7fe15fb806d04f2db9c7f73cdd9f1097b58b4b9d[m
+Author: Chivier Humber <chivier.humber@outlook.com>
+Date:   Thu Jan 29 14:11:25 2026 +0000
+
+    update: placeholder for homework
+
+[33mcommit d3f0fa4927a9730de5f138bd31e469ff6d64ce13[m
+Author: Chivier Humber <chivier.humber@outlook.com>
+Date:   Thu Jan 29 13:56:25 2026 +0000
+
+    update: remove textbook
+
+[33mcommit cbcb4b55d63a9062b110db415d46f3c800754acb[m
+Merge: 3f079d7 076e1c3
+Author: Chivier Humber <chivier.humber@outlook.com>
+Date:   Wed Jan 28 18:57:22 2026 +0000
+
+    Merge branch 'main' of https://github.com/ed-aisys/edin-mls-26-spring
+
+[33mcommit 3f079d72b16f48eae0cdb1df5a18e4fa8dcbd533[m
+Author: Chivier Humber <chivier.humber@outlook.com>
+Date:   Wed Jan 28 18:57:17 2026 +0000
+
+    update: tutorial
+
+[33mcommit 076e1c3701d067a7902245aa59740d614c17b755[m
+Author: Chivier Humber <chivier.humber@outlook.com>
+Date:   Mon Jan 26 18:46:43 2026 +0000
+
+    update: update chapter 3
+
+[33mcommit db914c8ba5ea3833dfcd8ebce449929988f7ed1b[m
+Author: Chivier Humber <chivier.humber@outlook.com>
+Date:   Mon Jan 26 18:42:07 2026 +0000
+
+    update: update chapter 3
+
+[33mcommit b475a44a0044e1ed7b469c2135f1029378c9e590[m
+Merge: 017411c 249f722
+Author: Chivier Humber <chivier.humber@outlook.com>
+Date:   Mon Jan 26 18:05:01 2026 +0000
+
+    Merge branch 'main' of https://github.com/ed-aisys/edin-mls-26-spring
+
+[33mcommit 017411cc95fc0c51d162578135227cafdffa9225[m
+Author: Chivier Humber <chivier.humber@outlook.com>
+Date:   Mon Jan 26 18:04:40 2026 +0000
+
+    update: conda instal
+
+[33mcommit 249f7225210c92501ce5a49bdd34700e5019b38c[m
+Author: Yeqi Huang <chivier.humber@outlook.com>
+Date:   Sat Jan 24 15:12:00 2026 +0000
+
+    update: compressed slides
+
+[33mcommit 0028c014ea233d848837b2adec72b96185c00ca6[m
+Author: Chivier Humber <chivier.humber@outlook.com>
+Date:   Sat Jan 24 15:05:26 2026 +0000
+
+    update: cutile tutorial demos
+
+[33mcommit 347139b5c1c8dd6f8245708b749a11e350c56477[m
+Author: Yeqi Huang <chivier.humber@outlook.com>
+Date:   Fri Jan 23 15:01:13 2026 +0000
+
+    Initial commit
