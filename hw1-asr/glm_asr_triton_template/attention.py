@@ -337,6 +337,9 @@ def next_power_of_two(x: int) -> int:
 
 MAX_ATTENTION_DIM = 256
 
+# Toggle between FlashAttention (True) and naive 3-kernel (False)
+USE_FLASH_ATTENTION = True
+
 
 def scaled_dot_product_attention(
     q: torch.Tensor,
@@ -364,6 +367,41 @@ def scaled_dot_product_attention(
         and head_dim_padded <= MAX_ATTENTION_DIM
     )
 
+    # ---- FlashAttention path: single fused kernel, no scores materialization ----
+    if use_triton and USE_FLASH_ATTENTION and attention_mask is None:
+        q_flat = q.reshape(batch * num_heads, seq_q, head_dim).to(torch.float32)
+        k_flat = k.reshape(batch * num_heads, seq_k, head_dim).to(torch.float32)
+        v_flat = v.reshape(batch * num_heads, seq_k, head_dim).to(torch.float32)
+
+        output = torch.empty(
+            (batch * num_heads, seq_q, head_dim),
+            dtype=torch.float32,
+            device=q.device,
+        )
+
+        BLOCK_M = 64
+        BLOCK_N = 64
+        grid = (batch * num_heads, triton.cdiv(seq_q, BLOCK_M))
+
+        flash_attention_kernel[grid](
+            q_flat, k_flat, v_flat, output,
+            float(scale),
+            seq_q, seq_k, head_dim,
+            q_flat.stride(0), q_flat.stride(1), q_flat.stride(2),
+            k_flat.stride(0), k_flat.stride(1), k_flat.stride(2),
+            v_flat.stride(0), v_flat.stride(1), v_flat.stride(2),
+            output.stride(0), output.stride(1), output.stride(2),
+            IS_CAUSAL=is_causal,
+            BLOCK_M=BLOCK_M,
+            BLOCK_N=BLOCK_N,
+            BLOCK_D=head_dim_padded,
+            num_warps=4,
+            num_stages=2,
+        )
+
+        return output.reshape(batch, num_heads, seq_q, head_dim).to(q.dtype)
+
+    # ---- Naive 3-kernel path (fallback when attention_mask is provided) ----
     if use_triton:
         q_flat = q.reshape(batch * num_heads, seq_q, head_dim).to(torch.float32)
         k_flat = k.reshape(batch * num_heads, seq_k, head_dim).to(torch.float32)
